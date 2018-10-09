@@ -1,6 +1,7 @@
 import { Button, Table, Tag } from 'antd';
 import * as React from 'react';
 import './App.css';
+import EditDialog from './components/EditDialog';
 
 interface IMovie {
   _id: string;
@@ -14,7 +15,7 @@ interface IMovie {
 
 interface IState {
   movies: IMovie[];
-  editingMovie: string;
+  visibleEditDialog: boolean;
 }
 
 class App extends React.Component<any, IState> {
@@ -56,19 +57,14 @@ class App extends React.Component<any, IState> {
       dataIndex: 'edit/delete',
       key: 'edit/delete',
       render: (text: string, movie: IMovie) => {
-        const editable: boolean = this.isEditing(movie);
         const ButtonGroup = Button.Group;
         return (
-          <div>
-            {editable ? (
-              <div>Cant edit</div>
-            ) : (
-              <ButtonGroup>
-                <Button type="primary">Редактировать</Button>
-                <Button type="danger">Удалить</Button>
-              </ButtonGroup>
-            )}
-          </div>
+          <ButtonGroup>
+            <Button type="primary" onClick={this.showEditDialog}>
+              Редактировать
+            </Button>
+            <Button type="danger">Удалить</Button>
+          </ButtonGroup>
         );
       }
     }
@@ -78,9 +74,10 @@ class App extends React.Component<any, IState> {
     super(props);
     this.state = {
       movies: [],
-      editingMovie: ''
+      visibleEditDialog: false
     };
     this.getAllMovies = this.getAllMovies.bind(this);
+    this.showEditDialog = this.showEditDialog.bind(this);
   }
 
   public getAllMovies(): void {
@@ -99,19 +96,16 @@ class App extends React.Component<any, IState> {
     return (
       <div className="App">
         <Table columns={columns} dataSource={movies} pagination="bottom" />
+        <EditDialog visible={this.state.visibleEditDialog} />
       </div>
     );
   }
 
-  // private edit = (movie: IMovie) => {
-  //   this.setState({
-  //     editingMovie: movie._id
-  //   });
-  // };
-
-  private isEditing = (movie: IMovie) => {
-    return movie._id === this.state.editingMovie;
-  };
+  private showEditDialog(): void {
+    this.setState({
+      visibleEditDialog: true
+    });
+  }
 }
 
 export default App;
