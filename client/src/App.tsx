@@ -78,6 +78,7 @@ class App extends React.Component<any, IState> {
     };
     this.getAllMovies = this.getAllMovies.bind(this);
     this.showEditDialog = this.showEditDialog.bind(this);
+    this.hideDialog = this.hideDialog.bind(this);
   }
 
   public getAllMovies(): void {
@@ -96,9 +97,18 @@ class App extends React.Component<any, IState> {
     return (
       <div className="App">
         <Table columns={columns} dataSource={movies} pagination="bottom" />
-        <EditDialog visible={this.state.visibleEditDialog} />
+        <EditDialog
+          visible={this.state.visibleEditDialog}
+          handleCancel={this.hideDialog}
+        />
       </div>
     );
+  }
+
+  private hideDialog(): void {
+    this.setState({
+      visibleEditDialog: false
+    });
   }
 
   private showEditDialog(): void {

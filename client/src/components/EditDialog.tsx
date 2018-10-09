@@ -3,6 +3,7 @@ import * as React from 'react';
 
 interface IEditDialogProps {
   visible: boolean;
+  handleCancel: (e: any) => void;
 }
 
 class EditDialog extends React.Component<IEditDialogProps> {
@@ -13,7 +14,11 @@ class EditDialog extends React.Component<IEditDialogProps> {
 
   public render() {
     return (
-      <Modal title="title" visible={this.props.visible}>
+      <Modal
+        title="title"
+        visible={this.props.visible}
+        onCancel={this.props.handleCancel}
+      >
         <Button />
       </Modal>
     );
