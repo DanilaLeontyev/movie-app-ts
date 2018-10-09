@@ -1,11 +1,12 @@
-import { Table } from 'antd';
+import { Button, Table, Tag } from 'antd';
 import * as React from 'react';
 import './App.css';
 
 interface IMovie {
-  id: string;
+  _id: string;
   title: string;
   year: string;
+  duration: string;
   releaseDate: string;
   poster: string;
   genres: string[];
@@ -13,6 +14,7 @@ interface IMovie {
 
 interface IState {
   movies: IMovie[];
+  editingMovie: string;
 }
 
 class App extends React.Component<any, IState> {
@@ -24,13 +26,59 @@ class App extends React.Component<any, IState> {
       render: (posterURL: string, movie: IMovie) => (
         <img alt={movie.title} src={'/img/' + posterURL} height="150px" />
       )
+    },
+    {
+      title: 'Название фильма',
+      dataIndex: 'title',
+      key: 'title'
+    },
+    {
+      title: 'Дата релиза',
+      dataIndex: 'releaseDate',
+      key: 'releaseDate'
+    },
+    {
+      title: 'Жанры',
+      dataIndex: 'genres',
+      key: 'genres',
+      render: (genres: string[]) => (
+        <span>
+          {genres.map(genre => (
+            <Tag color="blue" key={genre}>
+              {genre}
+            </Tag>
+          ))}
+        </span>
+      )
+    },
+    {
+      title: 'Совершить действие',
+      dataIndex: 'edit/delete',
+      key: 'edit/delete',
+      render: (text: string, movie: IMovie) => {
+        const editable: boolean = this.isEditing(movie);
+        const ButtonGroup = Button.Group;
+        return (
+          <div>
+            {editable ? (
+              <div>Cant edit</div>
+            ) : (
+              <ButtonGroup>
+                <Button type="primary">Редактировать</Button>
+                <Button type="danger">Удалить</Button>
+              </ButtonGroup>
+            )}
+          </div>
+        );
+      }
     }
   ];
 
   constructor(props: any) {
     super(props);
     this.state = {
-      movies: []
+      movies: [],
+      editingMovie: ''
     };
     this.getAllMovies = this.getAllMovies.bind(this);
   }
@@ -54,6 +102,16 @@ class App extends React.Component<any, IState> {
       </div>
     );
   }
+
+  // private edit = (movie: IMovie) => {
+  //   this.setState({
+  //     editingMovie: movie._id
+  //   });
+  // };
+
+  private isEditing = (movie: IMovie) => {
+    return movie._id === this.state.editingMovie;
+  };
 }
 
 export default App;
