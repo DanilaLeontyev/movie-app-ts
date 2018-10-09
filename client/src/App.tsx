@@ -2,36 +2,28 @@ import { Table } from 'antd';
 import * as React from 'react';
 import './App.css';
 
-class App extends React.Component<any, any> {
-  public columns: any = [
-    {
-      title: 'Название',
-      dataIndex: 'name',
-      key: 'name'
-    }
-  ];
+interface IMovie {
+  id: string;
+  title: string;
+  year: string;
+  releaseDate: string;
+  poster: string;
+  genres: string[];
+}
 
-  public data: any = [
+interface IState {
+  movies: IMovie[];
+}
+
+class App extends React.Component<any, IState> {
+  private columns: any = [
     {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer']
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser']
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher']
+      title: 'Постер',
+      dataIndex: 'poster',
+      key: 'poster',
+      render: (posterURL: string) => (
+        <img alt={'skdfj'} src={'/img/' + posterURL} height="150px" />
+      )
     }
   ];
 
@@ -55,10 +47,10 @@ class App extends React.Component<any, any> {
 
   public render() {
     const columns = this.columns;
-    const data = this.data;
+    const { movies } = this.state;
     return (
       <div className="App">
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={movies} pagination="bottom" />
       </div>
     );
   }
