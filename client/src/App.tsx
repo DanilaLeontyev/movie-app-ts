@@ -21,8 +21,8 @@ class App extends React.Component<any, IState> {
       title: 'Постер',
       dataIndex: 'poster',
       key: 'poster',
-      render: (posterURL: string) => (
-        <img alt={'skdfj'} src={'/img/' + posterURL} height="150px" />
+      render: (posterURL: string, movie: IMovie) => (
+        <img alt={movie.title} src={'/img/' + posterURL} height="150px" />
       )
     }
   ];
@@ -41,7 +41,7 @@ class App extends React.Component<any, IState> {
       .then(data => this.setState({ movies: data }));
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     this.getAllMovies();
   }
 
