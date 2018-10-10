@@ -16,7 +16,7 @@ interface IMovie {
 interface IAppState {
   movies: IMovie[];
   visibleEditDialog: boolean;
-  editMovie: any;
+  editMovie: IMovie;
 }
 
 class App extends React.Component<any, IAppState> {
@@ -61,7 +61,7 @@ class App extends React.Component<any, IAppState> {
         const ButtonGroup = Button.Group;
         return (
           <ButtonGroup>
-            <Button type="primary" onClick={this.toggleDialog}>
+            <Button type="primary" onClick={this.showEditDialog(movie)}>
               Редактировать
             </Button>
             <Button type="danger">Удалить</Button>
@@ -76,10 +76,20 @@ class App extends React.Component<any, IAppState> {
     this.state = {
       movies: [],
       visibleEditDialog: false,
-      editMovie: null
+      editMovie: {
+        _id: '',
+        title: '',
+        year: '',
+        duration: '',
+        releaseDate: '',
+        poster: '',
+        genres: []
+      }
     };
+
     this.getAllMovies = this.getAllMovies.bind(this);
-    this.toggleDialog = this.toggleDialog.bind(this);
+    this.showEditDialog = this.showEditDialog.bind(this);
+    this.hideDialog = this.hideDialog.bind(this);
   }
 
   public componentDidMount(): void {
@@ -88,7 +98,7 @@ class App extends React.Component<any, IAppState> {
 
   public render() {
     const columns = this.columns;
-    const { movies, visibleEditDialog } = this.state;
+    const { movies, visibleEditDialog, editMovie } = this.state;
     return (
       <div className="App">
         <Table
@@ -98,8 +108,9 @@ class App extends React.Component<any, IAppState> {
           pagination="bottom"
         />
         <EditDialog
+          editMovie={editMovie}
           visible={visibleEditDialog}
-          handleCancel={this.toggleDialog}
+          handleCancel={this.hideDialog}
         />
       </div>
     );
@@ -111,14 +122,20 @@ class App extends React.Component<any, IAppState> {
       .then(data => this.setState({ movies: data }));
   }
 
-  private toggleDialog(): void {
-    const { visibleEditDialog } = this.state;
+  // Чтобы не применять стрелочную функцию применяем каррирование
+  private showEditDialog = (movie: IMovie) => (
+    e: React.MouseEvent<HTMLElement>
+  ) => {
+    this.setState({
+      visibleEditDialog: true,
+      editMovie: movie
+    });
+  };
 
-    if (visibleEditDialog) {
-      this.setState({ visibleEditDialog: false });
-    } else {
-      this.setState({ visibleEditDialog: true });
-    }
+  private hideDialog(): void {
+    this.setState({
+      visibleEditDialog: false
+    });
   }
 }
 
