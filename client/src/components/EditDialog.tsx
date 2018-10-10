@@ -1,4 +1,4 @@
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import * as React from 'react';
 
 interface IEditDialogProps {
@@ -7,20 +7,13 @@ interface IEditDialogProps {
 }
 
 class EditDialog extends React.Component<IEditDialogProps> {
-  constructor(props: any) {
-    super(props);
-    this.state = {};
-  }
-
   public render() {
     return (
       <Modal
-        title="title"
+        title="Редактировать фильм"
         visible={this.props.visible}
         onCancel={this.props.handleCancel}
-      >
-        <Button />
-      </Modal>
+      />
     );
   }
 }

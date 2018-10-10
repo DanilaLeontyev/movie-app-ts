@@ -13,12 +13,13 @@ interface IMovie {
   genres: string[];
 }
 
-interface IState {
+interface IAppState {
   movies: IMovie[];
   visibleEditDialog: boolean;
+  editMovie: any;
 }
 
-class App extends React.Component<any, IState> {
+class App extends React.Component<any, IAppState> {
   private columns: any = [
     {
       title: 'Постер',
@@ -60,7 +61,7 @@ class App extends React.Component<any, IState> {
         const ButtonGroup = Button.Group;
         return (
           <ButtonGroup>
-            <Button type="primary" onClick={this.showEditDialog}>
+            <Button type="primary" onClick={this.toggleDialog}>
               Редактировать
             </Button>
             <Button type="danger">Удалить</Button>
@@ -74,17 +75,13 @@ class App extends React.Component<any, IState> {
     super(props);
     this.state = {
       movies: [],
-      visibleEditDialog: false
+      visibleEditDialog: false,
+      editMovie: null
     };
     this.getAllMovies = this.getAllMovies.bind(this);
-    this.showEditDialog = this.showEditDialog.bind(this);
-    this.hideDialog = this.hideDialog.bind(this);
-  }
-
-  public getAllMovies(): void {
-    fetch('/api/movies')
-      .then(res => res.json())
-      .then(data => this.setState({ movies: data }));
+    this.toggleDialog = this.toggleDialog.bind(this);
+    // this.showEditDialog = this.showEditDialog.bind(this);
+    // this.hideDialog = this.hideDialog.bind(this);
   }
 
   public componentDidMount(): void {
@@ -99,22 +96,26 @@ class App extends React.Component<any, IState> {
         <Table columns={columns} dataSource={movies} pagination="bottom" />
         <EditDialog
           visible={this.state.visibleEditDialog}
-          handleCancel={this.hideDialog}
+          handleCancel={this.toggleDialog}
         />
       </div>
     );
   }
 
-  private hideDialog(): void {
-    this.setState({
-      visibleEditDialog: false
-    });
+  private getAllMovies(): void {
+    fetch('/api/movies')
+      .then(res => res.json())
+      .then(data => this.setState({ movies: data }));
   }
 
-  private showEditDialog(): void {
-    this.setState({
-      visibleEditDialog: true
-    });
+  private toggleDialog(): void {
+    const { visibleEditDialog } = this.state;
+
+    if (visibleEditDialog) {
+      this.setState({ visibleEditDialog: false });
+    } else {
+      this.setState({ visibleEditDialog: true });
+    }
   }
 }
 
