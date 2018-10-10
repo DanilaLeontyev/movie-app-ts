@@ -80,8 +80,6 @@ class App extends React.Component<any, IAppState> {
     };
     this.getAllMovies = this.getAllMovies.bind(this);
     this.toggleDialog = this.toggleDialog.bind(this);
-    // this.showEditDialog = this.showEditDialog.bind(this);
-    // this.hideDialog = this.hideDialog.bind(this);
   }
 
   public componentDidMount(): void {
@@ -90,12 +88,17 @@ class App extends React.Component<any, IAppState> {
 
   public render() {
     const columns = this.columns;
-    const { movies } = this.state;
+    const { movies, visibleEditDialog } = this.state;
     return (
       <div className="App">
-        <Table columns={columns} dataSource={movies} pagination="bottom" />
+        <Table
+          columns={columns}
+          rowKey="_id"
+          dataSource={movies}
+          pagination="bottom"
+        />
         <EditDialog
-          visible={this.state.visibleEditDialog}
+          visible={visibleEditDialog}
           handleCancel={this.toggleDialog}
         />
       </div>
