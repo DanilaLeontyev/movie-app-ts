@@ -16,16 +16,10 @@ interface IEditDialogProps {
   editedMovie: IMovie;
   selectedMovie: IMovie;
   handleCancel: (e: any) => void;
-  onEditMovieTitle: (e: any) => void;
+  onEditMovieTitle: (title: string) => void;
 }
 
 class EditDialog extends React.Component<IEditDialogProps> {
-  constructor(props: IEditDialogProps) {
-    super(props);
-
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-  }
-
   public render() {
     const { visible, editedMovie, handleCancel, selectedMovie } = this.props;
     return (
@@ -42,14 +36,12 @@ class EditDialog extends React.Component<IEditDialogProps> {
           <div>Продолжительность: {selectedMovie.duration}</div>
         </section>
         <section>
-          <Input value={editedMovie.title} onChange={this.handleTitleChange} />
+          <Input value={editedMovie.title} onChange={this.editMovie} />
         </section>
       </Modal>
     );
   }
-
-  private handleTitleChange(e: any) {
+  private editMovie = (e: React.ChangeEvent<HTMLInputElement>) =>
     this.props.onEditMovieTitle(e.target.value);
-  }
 }
 export default EditDialog;

@@ -21,7 +21,7 @@ interface IAppState {
 }
 
 class App extends React.Component<any, IAppState> {
-  private columns: any = [
+  private columns: object = [
     {
       title: 'Постер',
       dataIndex: 'poster',
