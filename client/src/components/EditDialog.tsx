@@ -13,7 +13,8 @@ interface IMovie {
 
 interface IEditDialogProps {
   visible: boolean;
-  editMovie: IMovie;
+  editedMovie: IMovie;
+  selectedMovie: IMovie;
   handleCancel: (e: any) => void;
   onEditMovieTitle: (e: any) => void;
 }
@@ -24,9 +25,9 @@ class EditDialog extends React.Component<IEditDialogProps> {
 
     this.handleTitleChange = this.handleTitleChange.bind(this);
   }
-  
+
   public render() {
-    const { visible, editMovie, handleCancel } = this.props;
+    const { visible, editedMovie, handleCancel, selectedMovie } = this.props;
     return (
       <Modal
         title="Редактировать информацию о фильме"
@@ -35,9 +36,14 @@ class EditDialog extends React.Component<IEditDialogProps> {
       >
         <section>
           <h2>Данные на сервере</h2>
-          <div>Название фильма: {editMovie.title}</div>
+          <div>Название фильма: {selectedMovie.title}</div>
+          <div>Дата релиза: {selectedMovie.releaseDate}</div>
+          <div>Год выхода: {selectedMovie.year}</div>
+          <div>Продолжительность: {selectedMovie.duration}</div>
         </section>
-        <Input value={editMovie.title} onChange={this.handleTitleChange} />
+        <section>
+          <Input value={editedMovie.title} onChange={this.handleTitleChange} />
+        </section>
       </Modal>
     );
   }

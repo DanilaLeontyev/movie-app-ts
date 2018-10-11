@@ -16,7 +16,8 @@ interface IMovie {
 interface IAppState {
   movies: IMovie[];
   visibleEditDialog: boolean;
-  editMovie: IMovie;
+  editedMovie: IMovie;
+  selectedMovie: IMovie;
 }
 
 class App extends React.Component<any, IAppState> {
@@ -76,7 +77,16 @@ class App extends React.Component<any, IAppState> {
     this.state = {
       movies: [],
       visibleEditDialog: false,
-      editMovie: {
+      editedMovie: {
+        _id: '',
+        title: '',
+        year: '',
+        duration: '',
+        releaseDate: '',
+        poster: '',
+        genres: []
+      },
+      selectedMovie: {
         _id: '',
         title: '',
         year: '',
@@ -98,7 +108,12 @@ class App extends React.Component<any, IAppState> {
 
   public render() {
     const columns = this.columns;
-    const { movies, visibleEditDialog, editMovie } = this.state;
+    const {
+      movies,
+      visibleEditDialog,
+      editedMovie,
+      selectedMovie
+    } = this.state;
     return (
       <div className="App">
         <Table
@@ -108,7 +123,8 @@ class App extends React.Component<any, IAppState> {
           pagination="bottom"
         />
         <EditDialog
-          editMovie={editMovie}
+          selectedMovie={selectedMovie}
+          editedMovie={editedMovie}
           visible={visibleEditDialog}
           handleCancel={this.hideDialog}
           onEditMovieTitle={this.editMovieTitle}
@@ -125,7 +141,7 @@ class App extends React.Component<any, IAppState> {
 
   private editMovieTitle(title: string): void {
     this.setState(prevState => ({
-      editMovie: { ...prevState.editMovie, title }
+      editedMovie: { ...prevState.editedMovie, title }
     }));
   }
 
@@ -135,7 +151,8 @@ class App extends React.Component<any, IAppState> {
   ) => {
     this.setState({
       visibleEditDialog: true,
-      editMovie: movie
+      editedMovie: movie,
+      selectedMovie: movie
     });
   };
 
