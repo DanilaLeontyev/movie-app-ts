@@ -1,6 +1,7 @@
-import { Input, Modal } from 'antd';
+import { Form, Icon, Input, Modal } from 'antd';
 import * as React from 'react';
 
+const FormItem = Form.Item;
 interface IMovie {
   _id: string;
   title: string;
@@ -40,19 +41,29 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
         visible={visible}
         onCancel={this.onHandleCancel}
       >
-        <section>
+        <section className="serverData">
           <h2>Данные на сервере</h2>
           <div>Название фильма: {selectedMovie.title}</div>
           <div>Дата релиза: {selectedMovie.releaseDate}</div>
           <div>Год выхода: {selectedMovie.year}</div>
           <div>Продолжительность: {selectedMovie.duration}</div>
         </section>
-        <section>
-          <Input
+        <Form className="inputData">
+          <FormItem>
+            <Input
+              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              type="text"
+              placeholder="Название фильма"
+              value={this.state.editedMovie.title}
+              onChange={this.handleTitleChange}
+            />
+          </FormItem>
+
+          {/* <Input
             value={this.state.editedMovie.title}
             onChange={this.handleTitleChange}
-          />
-        </section>
+          /> */}
+        </Form>
       </Modal>
     );
   }
