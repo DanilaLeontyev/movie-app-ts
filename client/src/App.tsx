@@ -16,7 +16,6 @@ interface IMovie {
 interface IAppState {
   movies: IMovie[];
   visibleEditDialog: boolean;
-  editedMovie: IMovie;
   selectedMovie: IMovie;
 }
 
@@ -77,15 +76,6 @@ class App extends React.Component<any, IAppState> {
     this.state = {
       movies: [],
       visibleEditDialog: false,
-      editedMovie: {
-        _id: '',
-        title: '',
-        year: '',
-        duration: '',
-        releaseDate: '',
-        poster: '',
-        genres: []
-      },
       selectedMovie: {
         _id: '',
         title: '',
@@ -99,7 +89,6 @@ class App extends React.Component<any, IAppState> {
 
     this.getAllMovies = this.getAllMovies.bind(this);
     this.hideDialog = this.hideDialog.bind(this);
-    this.editMovieTitle = this.editMovieTitle.bind(this);
   }
 
   public componentDidMount(): void {
@@ -108,12 +97,7 @@ class App extends React.Component<any, IAppState> {
 
   public render() {
     const columns = this.columns;
-    const {
-      movies,
-      visibleEditDialog,
-      editedMovie,
-      selectedMovie
-    } = this.state;
+    const { movies, visibleEditDialog, selectedMovie } = this.state;
     return (
       <div className="App">
         <Table
@@ -124,10 +108,8 @@ class App extends React.Component<any, IAppState> {
         />
         <EditDialog
           selectedMovie={selectedMovie}
-          editedMovie={editedMovie}
           visible={visibleEditDialog}
           handleCancel={this.hideDialog}
-          onEditMovieTitle={this.editMovieTitle}
         />
       </div>
     );
@@ -139,19 +121,12 @@ class App extends React.Component<any, IAppState> {
       .then(data => this.setState({ movies: data }));
   }
 
-  private editMovieTitle(title: string): void {
-    this.setState(prevState => ({
-      editedMovie: { ...prevState.editedMovie, title }
-    }));
-  }
-
   // Чтобы не применять стрелочную функцию применяем каррирование
   private showEditDialog = (movie: IMovie) => (
     e: React.MouseEvent<HTMLElement>
   ) => {
     this.setState({
       visibleEditDialog: true,
-      editedMovie: movie,
       selectedMovie: movie
     });
   };
