@@ -88,8 +88,8 @@ class App extends React.Component<any, IAppState> {
     };
 
     this.getAllMovies = this.getAllMovies.bind(this);
-    this.showEditDialog = this.showEditDialog.bind(this);
     this.hideDialog = this.hideDialog.bind(this);
+    this.editMovieTitle = this.editMovieTitle.bind(this);
   }
 
   public componentDidMount(): void {
@@ -111,6 +111,7 @@ class App extends React.Component<any, IAppState> {
           editMovie={editMovie}
           visible={visibleEditDialog}
           handleCancel={this.hideDialog}
+          onEditMovieTitle={this.editMovieTitle}
         />
       </div>
     );
@@ -120,6 +121,12 @@ class App extends React.Component<any, IAppState> {
     fetch('/api/movies')
       .then(res => res.json())
       .then(data => this.setState({ movies: data }));
+  }
+
+  private editMovieTitle(title: string): void {
+    this.setState(prevState => ({
+      editMovie: { ...prevState.editMovie, title }
+    }));
   }
 
   // Чтобы не применять стрелочную функцию применяем каррирование
