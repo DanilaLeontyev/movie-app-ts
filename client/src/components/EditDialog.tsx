@@ -1,4 +1,4 @@
-import { DatePicker, Form, Input, Modal } from 'antd';
+import { DatePicker, Form, Input, Modal, Slider } from 'antd';
 import * as moment from 'moment';
 import * as React from 'react';
 import './EditDialog.css';
@@ -34,6 +34,7 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.onHandleCancel = this.onHandleCancel.bind(this);
     this.handleReleaseDateChange = this.handleReleaseDateChange.bind(this);
+    this.handleDurationChange = this.handleDurationChange.bind(this);
   }
 
   public render() {
@@ -66,6 +67,9 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
             <FormItem>
               <DatePicker onChange={this.handleReleaseDateChange} />
             </FormItem>
+            <FormItem>
+              <Slider min={0} max={400} onChange={this.handleDurationChange} />
+            </FormItem>
           </Form>
         </div>
       </Modal>
@@ -88,8 +92,16 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
 
   private handleReleaseDateChange(e: any) {
     const releaseDate = moment(e).format('YYYY-MM-DD');
+    const year = moment(e).format('YYYY');
     this.setState(state => ({
-      editedMovie: { ...state.editedMovie, releaseDate }
+      editedMovie: { ...state.editedMovie, releaseDate, year }
+    }));
+  }
+
+  private handleDurationChange(e: any) {
+    const duration = e;
+    this.setState(state => ({
+      editedMovie: { ...state.editedMovie, duration }
     }));
   }
 }
