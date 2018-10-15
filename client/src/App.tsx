@@ -45,14 +45,16 @@ class App extends React.Component<any, IAppState> {
       key: 'genres',
       render: (genres: string[]) => (
         <span>
-          {genres.map(genre => (
-            <Tag color="blue" key={genre}>
-              {genre}
-            </Tag>
-          ))}
+          {genres &&
+            genres.map(genre => (
+              <Tag color="blue" key={genre}>
+                {genre}
+              </Tag>
+            ))}
         </span>
       )
     },
+
     {
       title: 'Совершить действие',
       dataIndex: 'edit/delete',
