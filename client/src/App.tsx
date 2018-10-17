@@ -66,7 +66,9 @@ class App extends React.Component<any, IAppState> {
             <Button type="primary" onClick={this.showEditDialog(movie)}>
               Редактировать
             </Button>
-            <Button type="danger">Удалить</Button>
+            <Button type="danger" onClick={this.deleteMovie(movie)}>
+              Удалить
+            </Button>
           </ButtonGroup>
         );
       }
@@ -123,6 +125,18 @@ class App extends React.Component<any, IAppState> {
       .then(res => res.json())
       .then(data => this.setState({ movies: data }));
   }
+
+  private deleteMovie = (movie: IMovie) => (
+    e: React.MouseEvent<HTMLElement>
+  ) => {
+    fetch('/api/movies', {
+      method: 'delete',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ movie })
+    }).then(this.getAllMovies);
+  };
 
   // Чтобы не применять стрелочную функцию применяем каррирование
   private showEditDialog = (movie: IMovie) => (
