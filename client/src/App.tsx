@@ -1,6 +1,7 @@
 import { Button, Table, Tag } from 'antd';
 import * as React from 'react';
 import './App.css';
+import AddDialog from './components/AddDialog';
 import EditDialog from './components/EditDialog';
 
 interface IMovie {
@@ -16,6 +17,7 @@ interface IMovie {
 interface IAppState {
   movies: IMovie[];
   visibleEditDialog: boolean;
+  visibleAddDialog: boolean;
   selectedMovie: IMovie;
 }
 
@@ -80,6 +82,7 @@ class App extends React.Component<any, IAppState> {
     this.state = {
       movies: [],
       visibleEditDialog: false,
+      visibleAddDialog: false,
       selectedMovie: {
         _id: '',
         title: '',
@@ -93,6 +96,7 @@ class App extends React.Component<any, IAppState> {
 
     this.getAllMovies = this.getAllMovies.bind(this);
     this.hideDialog = this.hideDialog.bind(this);
+    this.showAddDialog = this.showAddDialog.bind(this);
   }
 
   public componentDidMount(): void {
@@ -101,9 +105,18 @@ class App extends React.Component<any, IAppState> {
 
   public render() {
     const columns = this.columns;
-    const { movies, visibleEditDialog, selectedMovie } = this.state;
+    const {
+      movies,
+      visibleEditDialog,
+      selectedMovie,
+      visibleAddDialog
+    } = this.state;
     return (
       <div className="App">
+        <h1>Американские фильмы</h1>
+        <Button type="primary" onClick={this.showAddDialog}>
+          Добавить новый фильм
+        </Button>
         <Table
           columns={columns}
           rowKey="_id"
@@ -116,6 +129,8 @@ class App extends React.Component<any, IAppState> {
           handleCancel={this.hideDialog}
           refreshData={this.getAllMovies}
         />
+
+        <AddDialog visible={visibleAddDialog} handleCancel={this.hideDialog} />
       </div>
     );
   }
@@ -148,9 +163,16 @@ class App extends React.Component<any, IAppState> {
     });
   };
 
+  private showAddDialog(): void {
+    this.setState({
+      visibleAddDialog: true
+    });
+  }
+
   private hideDialog(): void {
     this.setState({
-      visibleEditDialog: false
+      visibleEditDialog: false,
+      visibleAddDialog: false
     });
   }
 }

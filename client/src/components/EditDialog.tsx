@@ -5,6 +5,8 @@ import * as React from 'react';
 import './EditDialog.css';
 
 const FormItem = Form.Item;
+const Option = Select.Option;
+
 interface IMovie {
   _id: string;
   title: string;
@@ -44,7 +46,6 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
   public render() {
     const { visible, selectedMovie } = this.props;
     const genres: string[] = ['Drama', 'Sci-fi', 'Comedy'];
-    const Option = Select.Option;
     return (
       <Modal
         className="EditDialog"
@@ -116,9 +117,9 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
         oldData: this.props.selectedMovie,
         newData: this.state.editedMovie
       })
-    }).then(this.onHandleCancel);
-
-    this.props.refreshData();
+    })
+      .then(this.onHandleCancel)
+      .then(this.props.refreshData);
   }
 
   private handleGanresChange(e: any) {
