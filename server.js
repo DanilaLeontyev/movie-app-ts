@@ -84,7 +84,7 @@ app.put('/api/movies', (req, res) => {
         {
           $set: {
             title: newData.title ? newData.title : oldData.title,
-            genres: newData.genres.length > 0 ? newData.genres : oldData.genres,
+            genres: newData.genres ? newData.genres : oldData.genres,
             duration: newData.duration ? newData.duration : oldData.duration,
             releaseDate: newData.releaseDate
               ? newData.releaseDate
