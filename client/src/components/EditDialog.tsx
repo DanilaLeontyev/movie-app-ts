@@ -1,5 +1,6 @@
-import { DatePicker, Form, Input, Modal, Slider } from 'antd';
+import { Button, DatePicker, Form, Input, Modal, Select, Slider } from 'antd';
 import * as moment from 'moment';
+import 'moment/locale/ru';
 import * as React from 'react';
 import './EditDialog.css';
 
@@ -18,6 +19,7 @@ interface IEditDialogProps {
   visible: boolean;
   selectedMovie: IMovie;
   handleCancel: (e: any) => void;
+  refreshData: () => void;
 }
 
 interface IEditDialogState {
@@ -35,10 +37,14 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
     this.onHandleCancel = this.onHandleCancel.bind(this);
     this.handleReleaseDateChange = this.handleReleaseDateChange.bind(this);
     this.handleDurationChange = this.handleDurationChange.bind(this);
+    this.handleGanresChange = this.handleGanresChange.bind(this);
+    this.updateMovie = this.updateMovie.bind(this);
   }
 
   public render() {
     const { visible, selectedMovie } = this.props;
+    const genres: string[] = ['Drama', 'Sci-fi', 'Comedy'];
+    const Option = Select.Option;
     return (
       <Modal
         className="EditDialog"
@@ -49,6 +55,11 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
         <div className="EditDialog--content">
           <section className="serverData">
             <h2>Данные на сервере</h2>
+            <img
+              className="serverData--poster"
+              src={'img/' + selectedMovie.poster}
+              alt={selectedMovie.title}
+            />
             <div>Название фильма: {selectedMovie.title}</div>
             <div>Дата релиза: {selectedMovie.releaseDate}</div>
             <div>Год выхода: {selectedMovie.year}</div>
@@ -65,15 +76,56 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
               />
             </FormItem>
             <FormItem>
-              <DatePicker onChange={this.handleReleaseDateChange} />
+              <DatePicker
+                className="EditDialog--datepicker"
+                placeholder="Дата релиза"
+                onChange={this.handleReleaseDateChange}
+              />
             </FormItem>
             <FormItem>
               <Slider min={0} max={400} onChange={this.handleDurationChange} />
             </FormItem>
+            <FormItem>
+              <Select
+                mode="tags"
+                style={{ width: '100%' }}
+                onChange={this.handleGanresChange}
+                tokenSeparators={[',']}
+              >
+                {genres.map(genre => (
+                  <Option key={genre}>{genre}</Option>
+                ))}
+              </Select>
+            </FormItem>
+            <Button type="submit" onClick={this.updateMovie}>
+              Отправить на сервер
+            </Button>
           </Form>
         </div>
       </Modal>
     );
+  }
+
+  private updateMovie(e: any) {
+    fetch('/api/movies', {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        oldData: this.props.selectedMovie,
+        newData: this.state.editedMovie
+      })
+    }).then(this.onHandleCancel);
+
+    this.props.refreshData();
+  }
+
+  private handleGanresChange(e: any) {
+    const genres = e;
+    this.setState(state => ({
+      editedMovie: { ...state.editedMovie, genres }
+    }));
   }
 
   private handleTitleChange(e: any) {

@@ -15,3 +15,12 @@
 .EditDialog--content > * {
   width: 50%;
 }
+
+.EditDialog--datepicker {
+  width: 100%;
+}
+
+.serverData--poster {
+  max-height: 200px;
+  margin-bottom: 20px;
+}

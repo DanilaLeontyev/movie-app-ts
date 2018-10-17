@@ -112,12 +112,13 @@ class App extends React.Component<any, IAppState> {
           selectedMovie={selectedMovie}
           visible={visibleEditDialog}
           handleCancel={this.hideDialog}
+          refreshData={this.getAllMovies}
         />
       </div>
     );
   }
 
-  private getAllMovies(): void {
+  public getAllMovies(): void {
     fetch('/api/movies')
       .then(res => res.json())
       .then(data => this.setState({ movies: data }));
