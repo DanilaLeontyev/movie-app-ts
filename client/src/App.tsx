@@ -130,7 +130,11 @@ class App extends React.Component<any, IAppState> {
           refreshData={this.getAllMovies}
         />
 
-        <AddDialog visible={visibleAddDialog} handleCancel={this.hideDialog} />
+        <AddDialog
+          visible={visibleAddDialog}
+          handleCancel={this.hideDialog}
+          refreshData={this.getAllMovies}
+        />
       </div>
     );
   }
