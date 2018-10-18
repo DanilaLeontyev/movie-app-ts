@@ -42,11 +42,16 @@ app.post('/api/movies', (req, res) => {
       let data = req.body.movie;
       let movies = client.db('movie-database').collection('movie-in-theaters');
 
-      movies.insertOne(data);
+      if (Object.keys(data).length) {
+        movies.insertOne(data, (err, result) => {
+          if (err) console.log(err);
+          res.send(result);
+        });
+      } else res.send({ message: 'object is empty' });
     }
   );
 });
-
+//Хранение upload картинки
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, './data/img/');

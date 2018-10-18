@@ -15,7 +15,7 @@ import * as React from 'react';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-const genres: string[] = ['Drama', 'Sci-fi', 'Comedy'];
+const genresList: string[] = ['Drama', 'Sci-fi', 'Comedy'];
 
 interface IAddDialogProps {
   visible: boolean;
@@ -80,7 +80,7 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
               onChange={this.handleGanresChange}
               tokenSeparators={[',']}
             >
-              {genres.map(genre => (
+              {genresList.map(genre => (
                 <Option key={genre}>{genre}</Option>
               ))}
             </Select>
@@ -137,9 +137,9 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
   }
 
   private handleGanresChange(e: any) {
-    const genresList = e;
+    const genres = e;
     this.setState(state => ({
-      movie: { ...state.movie, genresList }
+      movie: { ...state.movie, genres }
     }));
   }
 
