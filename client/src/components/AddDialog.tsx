@@ -1,4 +1,14 @@
-import { Button, DatePicker, Form, Input, Modal, Select, Slider } from 'antd';
+import {
+  Button,
+  DatePicker,
+  Form,
+  Icon,
+  Input,
+  Modal,
+  Select,
+  Slider,
+  Upload
+} from 'antd';
 import * as moment from 'moment';
 import 'moment/locale/ru';
 import * as React from 'react';
@@ -31,6 +41,7 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
     this.handleDurationChange = this.handleDurationChange.bind(this);
     this.handleGanresChange = this.handleGanresChange.bind(this);
     this.addMovie = this.addMovie.bind(this);
+    this.handleUpload = this.handleUpload.bind(this);
   }
 
   public render() {
@@ -74,6 +85,21 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
               ))}
             </Select>
           </FormItem>
+          <FormItem>
+            <Upload
+              name="poster"
+              action="/upload"
+              accept="image/*"
+              url={`img/${this.state.movie.poster}`}
+              thumbUrl={`img/${this.state.movie.poster}`}
+              onChange={this.handleUpload}
+              listType="picture"
+            >
+              <Button>
+                <Icon type="upload" /> Загрузить постер
+              </Button>
+            </Upload>
+          </FormItem>
           <Button type="submit" onClick={this.addMovie}>
             Отправить на сервер
           </Button>
@@ -82,16 +108,25 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
     );
   }
 
+  private handleUpload(info: any) {
+    if (info.file.status === 'done') {
+      const poster = info.file.response;
+      this.setState(state => ({
+        movie: { ...state.movie, poster }
+      }));
+    }
+  }
+
   private addMovie(e: any) {
-      fetch('/api/movies', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ movie: this.state.movie })
-      })
-        .then(this.onHandleCancel)
-        .then(this.props.refreshData)
+    fetch('/api/movies', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ movie: this.state.movie })
+    })
+      .then(this.onHandleCancel)
+      .then(this.props.refreshData);
   }
 
   private onHandleCancel(e: any) {
