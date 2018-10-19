@@ -28,7 +28,11 @@ class App extends React.Component<any, IAppState> {
       dataIndex: 'poster',
       key: 'poster',
       render: (posterURL: string, movie: IMovie) => (
-        <img alt={movie.title} src={'/img/' + posterURL} height="150px" />
+        <img
+          alt={movie.title}
+          src={`img/${posterURL ? posterURL : 'defaultPoster.jpeg'}`}
+          height="150px"
+        />
       )
     },
     {
@@ -98,6 +102,7 @@ class App extends React.Component<any, IAppState> {
     this.hideDialog = this.hideDialog.bind(this);
     this.showAddDialog = this.showAddDialog.bind(this);
     this.deleteMovie = this.deleteMovie.bind(this);
+    this.addMovieToState = this.addMovieToState.bind(this);
   }
 
   public componentDidMount(): void {
@@ -134,7 +139,7 @@ class App extends React.Component<any, IAppState> {
         <AddDialog
           visible={visibleAddDialog}
           handleCancel={this.hideDialog}
-          refreshData={this.getAllMovies}
+          refreshData={this.addMovieToState}
         />
       </div>
     );
@@ -146,6 +151,14 @@ class App extends React.Component<any, IAppState> {
       .then(data => this.setState({ movies: data }))
       .then(() => message.success(`Данные загружены`))
       .catch(err => message.error(`Ошибка загрузки данных`));
+  }
+
+  public addMovieToState(movie: IMovie): void {
+    const prevState: IMovie[] = [...this.state.movies];
+    prevState.push(movie);
+    this.setState({
+      movies: prevState
+    });
   }
 
   private deleteMovie = (movie: IMovie) => (

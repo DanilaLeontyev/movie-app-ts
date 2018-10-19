@@ -119,7 +119,6 @@ app.delete('/api/movies', (req, res) => {
       if (err) console.log(err);
       let id = new ObjectId(req.body.movie._id); // Получаем ID элемента,который нужно удалить
       let movies = client.db('movie-database').collection('movie-in-theaters');
-
       movies.findOneAndDelete(
         {
           _id: id

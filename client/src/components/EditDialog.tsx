@@ -58,7 +58,11 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
             <h2>Данные на сервере</h2>
             <img
               className="serverData--poster"
-              src={'img/' + selectedMovie.poster}
+              src={`img/${
+                selectedMovie.poster
+                  ? selectedMovie.poster
+                  : 'defaultPoster.jpeg'
+              }`}
               alt={selectedMovie.title}
             />
             <div>Название фильма: {selectedMovie.title}</div>

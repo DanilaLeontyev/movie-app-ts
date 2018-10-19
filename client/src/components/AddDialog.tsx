@@ -4,6 +4,7 @@ import {
   Form,
   Icon,
   Input,
+  message,
   Modal,
   Select,
   Slider,
@@ -17,10 +18,20 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const genresList: string[] = ['Drama', 'Sci-fi', 'Comedy'];
 
+interface IMovie {
+  _id: string;
+  title: string;
+  year: string;
+  duration: string;
+  releaseDate: string;
+  poster: string;
+  genres: string[];
+}
+
 interface IAddDialogProps {
   visible: boolean;
   handleCancel: (e: any) => void;
-  refreshData: () => void;
+  refreshData: (movie: IMovie) => void;
 }
 
 interface IAddDialogState {
@@ -125,8 +136,9 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
       },
       body: JSON.stringify({ movie: this.state.movie })
     })
+      .then(() => this.props.refreshData(this.state.movie))
       .then(this.onHandleCancel)
-      .then(this.props.refreshData);
+      .catch(() => message.error('lskfj'));
   }
 
   private onHandleCancel(e: any) {
