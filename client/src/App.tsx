@@ -1,4 +1,4 @@
-import { Button, Table, Tag } from 'antd';
+import { Button, message, Table, Tag } from 'antd';
 import * as React from 'react';
 import './App.css';
 import AddDialog from './components/AddDialog';
@@ -97,6 +97,7 @@ class App extends React.Component<any, IAppState> {
     this.getAllMovies = this.getAllMovies.bind(this);
     this.hideDialog = this.hideDialog.bind(this);
     this.showAddDialog = this.showAddDialog.bind(this);
+    this.deleteMovie = this.deleteMovie.bind(this);
   }
 
   public componentDidMount(): void {
@@ -142,7 +143,9 @@ class App extends React.Component<any, IAppState> {
   public getAllMovies(): void {
     fetch('/api/movies')
       .then(res => res.json())
-      .then(data => this.setState({ movies: data }));
+      .then(data => this.setState({ movies: data }))
+      .then(() => message.success(`Данные загружены`))
+      .catch(err => message.error(`Ошибка загрузки данных`));
   }
 
   private deleteMovie = (movie: IMovie) => (
@@ -154,7 +157,15 @@ class App extends React.Component<any, IAppState> {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ movie })
-    }).then(this.getAllMovies);
+    })
+      .then(() => {
+        const array: IMovie[] = [...this.state.movies];
+        const index = array.indexOf(movie);
+        array.splice(index, 1);
+        this.setState({ movies: array });
+      })
+      .then(() => message.success(`Фильм ${movie.title} удален успешно`))
+      .catch(() => message.error('Произошла ошибка'));
   };
 
   // Чтобы не применять стрелочную функцию применяем каррирование
