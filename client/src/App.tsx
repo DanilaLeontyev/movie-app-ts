@@ -152,7 +152,7 @@ class App extends React.Component<any, IAppState> {
       .then(res => res.json())
       .then(data => this.setState({ movies: data }))
       .then(() => message.success(`Данные загружены`))
-      .catch(err => message.error(`Ошибка загрузки данных`));
+      .catch(() => message.error(`Ошибка загрузки данных`));
   }
 
   public addMovieToState = (movie: IMovie) => {

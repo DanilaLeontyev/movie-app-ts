@@ -69,6 +69,7 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
         title="Редактировать информацию о фильме"
         visible={visible}
         onCancel={this.onHandleCancel}
+        destroyOnClose="true"
       >
         <div className="EditDialog--content">
           <section className="serverData">
@@ -93,7 +94,6 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
               <Input
                 type="text"
                 placeholder="Название фильма"
-                value={this.state.editedMovie.title}
                 onChange={this.handleTitleChange}
               />
             </FormItem>
@@ -140,8 +140,10 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
       })
     })
       .then(() => this.props.updateMovieInState(this.state.editedMovie))
-      .then(this.onHandleCancel)
-      .catch(() => message.error('Ошибка изменения фильма'));
+      .then(() => message.success(`Фильм отредактирован успешно`))
+      .catch(() => message.error(`Ошибка изменения фильма`));
+
+    this.onHandleCancel(e);
   }
 
   private handleGanresChange(e: any) {
@@ -160,17 +162,6 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
 
   private onHandleCancel(e: any) {
     this.props.handleCancel(e);
-    this.setState({
-      editedMovie: {
-        _id: '',
-        title: '',
-        year: '',
-        duration: '',
-        releaseDate: '',
-        poster: '',
-        genres: []
-      }
-    });
   }
 
   private handleReleaseDateChange(e: any) {

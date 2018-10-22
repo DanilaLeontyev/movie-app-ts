@@ -63,6 +63,7 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
         title="Редактировать информацию о фильме"
         visible={visible}
         onCancel={this.onHandleCancel}
+        destroyOnClose="true"
       >
         <Form className="inputData">
           <h2>Изменить данные</h2>
@@ -70,7 +71,6 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
             <Input
               type="text"
               placeholder="Название фильма"
-              value={this.state.movie.title}
               onChange={this.handleTitleChange}
             />
           </FormItem>
@@ -137,16 +137,16 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
       body: JSON.stringify({ movie: this.state.movie })
     })
       .then(() => this.props.addMovieToState(this.state.movie))
-      .then(message.success(`Добавлен новый фильм ${this.state.movie.title}`))
-      .then(this.onHandleCancel)
+      .then(() =>
+        message.success(`Добавлен новый фильм ${this.state.movie.title}`)
+      )
       .catch(() => message.error('Ошибка добавления фильма'));
+
+    this.onHandleCancel(e);
   }
 
   private onHandleCancel(e: any) {
     this.props.handleCancel(e);
-    this.setState({
-      movie: {}
-    });
   }
 
   private handleGanresChange(e: any) {
