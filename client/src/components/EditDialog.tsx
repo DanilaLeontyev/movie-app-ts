@@ -1,5 +1,4 @@
 import {
-  Button,
   DatePicker,
   Form,
   Input,
@@ -40,6 +39,7 @@ interface IEditDialogState {
 class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
   constructor(props: IEditDialogProps) {
     super(props);
+
     this.state = {
       editedMovie: {
         _id: '',
@@ -70,6 +70,7 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
         visible={visible}
         onCancel={this.onHandleCancel}
         destroyOnClose="true"
+        onOk={this.updateMovie}
       >
         <div className="EditDialog--content">
           <section className="serverData">
@@ -119,16 +120,13 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
                 ))}
               </Select>
             </FormItem>
-            <Button type="submit" onClick={this.updateMovie}>
-              Отправить на сервер
-            </Button>
           </Form>
         </div>
       </Modal>
     );
   }
 
-  private updateMovie(e: any) {
+  private updateMovie = (e: any) => {
     fetch('/api/movies', {
       method: 'put',
       headers: {
@@ -144,6 +142,10 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
       .catch(() => message.error(`Ошибка изменения фильма`));
 
     this.onHandleCancel(e);
+  };
+
+  private onHandleCancel(e: any) {
+    this.props.handleCancel(e);
   }
 
   private handleGanresChange(e: any) {
@@ -158,10 +160,6 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
     this.setState(state => ({
       editedMovie: { ...state.editedMovie, title }
     }));
-  }
-
-  private onHandleCancel(e: any) {
-    this.props.handleCancel(e);
   }
 
   private handleReleaseDateChange(e: any) {

@@ -35,7 +35,7 @@ interface IAddDialogProps {
 }
 
 interface IAddDialogState {
-  movie: any;
+  movie: IMovie;
 }
 
 class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
@@ -43,7 +43,15 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
     super(props);
 
     this.state = {
-      movie: {}
+      movie: {
+        _id: '',
+        title: '',
+        year: '',
+        duration: '',
+        releaseDate: '',
+        poster: '',
+        genres: []
+      }
     };
 
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -64,6 +72,7 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
         visible={visible}
         onCancel={this.onHandleCancel}
         destroyOnClose="true"
+        onOk={this.addMovie}
       >
         <Form className="inputData">
           <h2>Изменить данные</h2>
@@ -111,9 +120,6 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
               </Button>
             </Upload>
           </FormItem>
-          <Button type="submit" onClick={this.addMovie}>
-            Отправить на сервер
-          </Button>
         </Form>
       </Modal>
     );
@@ -128,7 +134,7 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
     }
   }
 
-  private addMovie(e: any) {
+  private addMovie = (e: any) => {
     fetch('/api/movies', {
       method: 'post',
       headers: {
@@ -136,6 +142,15 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
       },
       body: JSON.stringify({ movie: this.state.movie })
     })
+      .then(res => res.json())
+      .then(id =>
+        this.setState(state => ({
+          movie: {
+            ...state.movie,
+            _id: id
+          }
+        }))
+      )
       .then(() => this.props.addMovieToState(this.state.movie))
       .then(() =>
         message.success(`Добавлен новый фильм ${this.state.movie.title}`)
@@ -143,7 +158,7 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
       .catch(() => message.error('Ошибка добавления фильма'));
 
     this.onHandleCancel(e);
-  }
+  };
 
   private onHandleCancel(e: any) {
     this.props.handleCancel(e);

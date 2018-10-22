@@ -43,14 +43,17 @@ app.post('/api/movies', (req, res) => {
       let movies = client.db('movie-database').collection('movie-in-theaters');
 
       if (Object.keys(data).length) {
+        if (data.hasOwnProperty('_id')) {
+          delete data._id;
+        }
         movies.insertOne(data, (err, result) => {
-          if (err) console.log(err);
-          res.send(result);
+          res.send(data._id);
         });
       } else res.send({ message: 'object is empty' });
     }
   );
 });
+
 //Хранение upload картинки
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
