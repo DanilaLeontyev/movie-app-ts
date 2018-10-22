@@ -117,6 +117,7 @@ class App extends React.Component<any, IAppState> {
       selectedMovie,
       visibleAddDialog
     } = this.state;
+
     return (
       <div className="App">
         <h1>Американские фильмы</h1>
@@ -139,7 +140,7 @@ class App extends React.Component<any, IAppState> {
         <AddDialog
           visible={visibleAddDialog}
           handleCancel={this.hideDialog}
-          refreshData={this.addMovieToState}
+          addMovieToState={this.addMovieToState}
         />
       </div>
     );
@@ -155,7 +156,7 @@ class App extends React.Component<any, IAppState> {
 
   public addMovieToState(movie: IMovie): void {
     const prevState: IMovie[] = [...this.state.movies];
-    prevState.push(movie);
+    prevState.unshift(movie);
     this.setState({
       movies: prevState
     });

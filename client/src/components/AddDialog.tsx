@@ -31,7 +31,7 @@ interface IMovie {
 interface IAddDialogProps {
   visible: boolean;
   handleCancel: (e: any) => void;
-  refreshData: (movie: IMovie) => void;
+  addMovieToState: (movie: IMovie) => void;
 }
 
 interface IAddDialogState {
@@ -136,9 +136,10 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
       },
       body: JSON.stringify({ movie: this.state.movie })
     })
-      .then(() => this.props.refreshData(this.state.movie))
+      .then(() => this.props.addMovieToState(this.state.movie))
+      .then(message.success(`Добавлен новый фильм ${this.state.movie.title}`))
       .then(this.onHandleCancel)
-      .catch(() => message.error('lskfj'));
+      .catch(() => message.error('Ошибка добавления фильма'));
   }
 
   private onHandleCancel(e: any) {
