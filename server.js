@@ -84,17 +84,21 @@ app.put('/api/movies', (req, res) => {
       let id = new ObjectId(oldData._id);
       let movies = client.db('movie-database').collection('movie-in-theaters');
 
+      Object.keys(newData).forEach(key => {
+        if (
+          newData[key] === '' ||
+          newData[key].length === 0 ||
+          newData[key] === null
+        ) {
+          delete newData[key];
+        }
+      });
+
       movies.findOneAndUpdate(
         { _id: id },
         {
           $set: {
-            title: newData.title ? newData.title : oldData.title,
-            genres: newData.genres ? newData.genres : oldData.genres,
-            duration: newData.duration ? newData.duration : oldData.duration,
-            releaseDate: newData.releaseDate
-              ? newData.releaseDate
-              : oldData.releaseDate,
-            year: newData.year ? newData.year : oldData.year
+            ...newData
           }
         },
         {

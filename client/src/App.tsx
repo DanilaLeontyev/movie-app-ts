@@ -163,10 +163,14 @@ class App extends React.Component<any, IAppState> {
 
   public updateMovieInState = (movie: IMovie) => {
     this.setState(state => {
-      const updateMovie: IMovie[] = state.movies.map(item => {
+      const updatedMovie: IMovie[] = state.movies.map(item => {
         if (item._id === this.state.selectedMovie._id) {
           Object.keys(movie).forEach(key => {
-            if (movie[key] === '' || movie[key] === [] || movie[key] === null) {
+            if (
+              movie[key] === '' ||
+              movie[key].length === 0 ||
+              movie[key] === null
+            ) {
               delete movie[key];
             }
           });
@@ -180,7 +184,7 @@ class App extends React.Component<any, IAppState> {
         }
       });
 
-      return { movies: updateMovie };
+      return { movies: updatedMovie };
     });
   };
 
