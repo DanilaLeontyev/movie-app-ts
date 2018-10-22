@@ -1,4 +1,13 @@
-import { Button, DatePicker, Form, Input, Modal, Select, Slider } from 'antd';
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  message,
+  Modal,
+  Select,
+  Slider
+} from 'antd';
 import * as moment from 'moment';
 import 'moment/locale/ru';
 import * as React from 'react';
@@ -21,18 +30,26 @@ interface IEditDialogProps {
   visible: boolean;
   selectedMovie: IMovie;
   handleCancel: (e: any) => void;
-  refreshData: () => void;
+  updateMovieInState: (movie: IMovie) => void;
 }
 
 interface IEditDialogState {
-  editedMovie: any;
+  editedMovie: IMovie;
 }
 
 class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
   constructor(props: IEditDialogProps) {
     super(props);
     this.state = {
-      editedMovie: {}
+      editedMovie: {
+        _id: '',
+        title: '',
+        year: '',
+        duration: '',
+        releaseDate: '',
+        poster: '',
+        genres: []
+      }
     };
 
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -122,8 +139,9 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
         newData: this.state.editedMovie
       })
     })
+      .then(() => this.props.updateMovieInState(this.state.editedMovie))
       .then(this.onHandleCancel)
-      .then(this.props.refreshData);
+      .catch(() => message.error('Ошибка изменения фильма'));
   }
 
   private handleGanresChange(e: any) {
@@ -143,7 +161,15 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
   private onHandleCancel(e: any) {
     this.props.handleCancel(e);
     this.setState({
-      editedMovie: {}
+      editedMovie: {
+        _id: '',
+        title: '',
+        year: '',
+        duration: '',
+        releaseDate: '',
+        poster: '',
+        genres: []
+      }
     });
   }
 

@@ -103,6 +103,7 @@ class App extends React.Component<any, IAppState> {
     this.showAddDialog = this.showAddDialog.bind(this);
     this.deleteMovie = this.deleteMovie.bind(this);
     this.addMovieToState = this.addMovieToState.bind(this);
+    this.updateMovieInState = this.updateMovieInState.bind(this);
   }
 
   public componentDidMount(): void {
@@ -134,7 +135,7 @@ class App extends React.Component<any, IAppState> {
           selectedMovie={selectedMovie}
           visible={visibleEditDialog}
           handleCancel={this.hideDialog}
-          refreshData={this.getAllMovies}
+          updateMovieInState={this.updateMovieInState}
         />
 
         <AddDialog
@@ -154,13 +155,34 @@ class App extends React.Component<any, IAppState> {
       .catch(err => message.error(`Ошибка загрузки данных`));
   }
 
-  public addMovieToState(movie: IMovie): void {
-    const prevState: IMovie[] = [...this.state.movies];
-    prevState.unshift(movie);
+  public addMovieToState = (movie: IMovie) => {
     this.setState({
-      movies: prevState
+      movies: this.state.movies.concat([movie])
     });
-  }
+  };
+
+  public updateMovieInState = (movie: IMovie) => {
+    this.setState(state => {
+      const updateMovie: IMovie[] = state.movies.map(item => {
+        if (item._id === this.state.selectedMovie._id) {
+          Object.keys(movie).forEach(key => {
+            if (movie[key] === '' || movie[key] === [] || movie[key] === null) {
+              delete movie[key];
+            }
+          });
+
+          return {
+            ...item,
+            ...movie
+          };
+        } else {
+          return { ...item };
+        }
+      });
+
+      return { movies: updateMovie };
+    });
+  };
 
   private deleteMovie = (movie: IMovie) => (
     e: React.MouseEvent<HTMLElement>
