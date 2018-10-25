@@ -68,12 +68,6 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
     const rowsCount = 6;
     return (
       <div>
-        <div className="content-section introduction">
-          <div className="feature-intro">
-            <h1>American Movies</h1>
-          </div>
-        </div>
-
         <div className="content-section implementation">
           <DataView
             value={this.state.movies}

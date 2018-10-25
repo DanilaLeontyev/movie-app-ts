@@ -9,12 +9,15 @@
 .siteHeader {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-around;
   align-items: center;
 }
 
 .header-logo {
   width: 100px;
   height: 100px;
-  margin-right: 100px;
+}
+
+.addButton__ant {
+  margin-left: 40%;
 }

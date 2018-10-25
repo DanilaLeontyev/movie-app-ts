@@ -120,8 +120,11 @@ class MovieTable extends React.Component<any, IAppState> {
 
     return (
       <div className="App">
-        <h1>Американские фильмы</h1>
-        <Button type="primary" onClick={this.showAddDialog}>
+        <Button
+          className="addButton__ant"
+          type="primary"
+          onClick={this.showAddDialog}
+        >
           Добавить новый фильм
         </Button>
         <Table

@@ -27,8 +27,9 @@ class App extends React.Component<any, IAppState> {
           <img
             className="header-logo"
             src={`img/${this.state.design}.png`}
-            alt=""
+            alt="logo"
           />
+          <h1>Фильмотека</h1>
           <button className="switchButton" onClick={this.switchLibrary}>
             {this.state.design}
           </button>
