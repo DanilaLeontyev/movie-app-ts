@@ -2,10 +2,10 @@ import * as moment from 'moment';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Dialog } from 'primereact/dialog';
+import { FileUpload } from 'primereact/fileupload';
 import { InputText } from 'primereact/inputtext';
 import { Slider } from 'primereact/slider';
 import * as React from 'react';
-// import { FileUpload } from 'primereact/fileupload';
 import './AddDialog.css';
 
 interface IMovie {
@@ -171,14 +171,14 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
           />
         </div>
 
-        {/* <FileUpload
+        <FileUpload
           name="poster"
           url="/upload"
           accept="image/*"
           onSelect={this.sendPoster}
           chooseLabel="Прикрепить постер"
           mode="basic"
-        /> */}
+        />
 
         <div className="AddDialog--calendar">
           <h3>Дата релиза</h3>
@@ -188,7 +188,7 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
             value={
               this.state.movie.releaseDate
                 ? moment(this.state.movie.releaseDate, 'YYYY-MM-DD').toDate()
-                : new Date()
+                : undefined
             }
             onChange={this.changeReleaseDate}
           />

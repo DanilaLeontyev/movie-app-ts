@@ -182,7 +182,7 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
                           this.state.editMovie.releaseDate,
                           'YYYY-MM-DD'
                         ).toDate()
-                      : new Date()
+                      : undefined
                   }
                   onChange={this.changeReleaseDate}
                 />
