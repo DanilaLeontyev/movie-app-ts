@@ -16,17 +16,30 @@ class App extends React.Component<any, IAppState> {
     this.state = {
       design: 'primeReact'
     };
+
+    this.switchLibrary = this.switchLibrary.bind(this);
   }
+
   public render() {
+    return (
+      <div>
+        <button onClick={this.switchLibrary}>{this.state.design}</button>
+        {this.state.design === 'primeReact' && <MovieTable />}
+          {this.state.design === 'antDesign' && <MovieTableANT />}
+        </div>
+    );
+  }
+
+  private switchLibrary(e: any) {
     if (this.state.design === 'primeReact') {
-      return <MovieTable />;
+      this.setState({
+        design: 'antDesign'
+      });
+    } else {
+      this.setState({
+        design: 'primeReact'
+      });
     }
-
-    if (this.state.design === 'antDesign') {
-      return <MovieTableANT />;
-    }
-
-    return <div>Что-то пошло не так</div>;
   }
 }
 
