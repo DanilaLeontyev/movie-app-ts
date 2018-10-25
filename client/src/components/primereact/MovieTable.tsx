@@ -5,7 +5,7 @@ import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
 import { Dropdown } from 'primereact/dropdown';
 import { Panel } from 'primereact/panel';
 // import InfoDialog from './InfoDialog';
-// import AddDialog from './AddDialog';
+import AddDialog from './AddDialog';
 // import EditDialog from './EditDialog';
 import './MovieTable.css';
 
@@ -98,13 +98,13 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
             movie={this.state.selectedMovie}
             onHideInfoDialog={this.hideDialog}
             onDeleteMovie={this.deleteMovie}
-          />
+          /> */}
           <AddDialog
             visible={this.state.visibleAdd}
             onHideAddDialog={this.hideDialog}
             getAllMovies={this.getAllMovies}
           />
-          <EditDialog
+          {/* <EditDialog
             visible={this.state.visibleEdit}
             movie={this.state.selectedMovie}
             onHideEditDialog={this.hideDialog}

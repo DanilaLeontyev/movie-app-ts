@@ -14,7 +14,7 @@ class App extends React.Component<any, IAppState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      design: 'antDesign'
+      design: 'primeReact'
     };
   }
   public render() {
