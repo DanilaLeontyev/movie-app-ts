@@ -156,7 +156,7 @@ class MovieTable extends React.Component<any, IAppState> {
 
   public addMovieToState = (movie: IMovie) => {
     this.setState({
-      movies: this.state.movies.concat([movie])
+      movies: [movie, ...this.state.movies]
     });
   };
 
