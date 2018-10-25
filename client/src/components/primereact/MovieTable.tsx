@@ -1,12 +1,10 @@
-import * as React from 'react';
-
 import { Button } from 'primereact/button';
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
 import { Dropdown } from 'primereact/dropdown';
 import { Panel } from 'primereact/panel';
-// import InfoDialog from './InfoDialog';
+import * as React from 'react';
 import AddDialog from './AddDialog';
-// import EditDialog from './EditDialog';
+import EditDialog from './EditDialog';
 import './MovieTable.css';
 
 interface IMovie {
@@ -104,13 +102,13 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
             onHideAddDialog={this.hideDialog}
             getAllMovies={this.getAllMovies}
           />
-          {/* <EditDialog
+          <EditDialog
             visible={this.state.visibleEdit}
             movie={this.state.selectedMovie}
             onHideEditDialog={this.hideDialog}
             getAllMovies={this.getAllMovies}
             onDeleteMovie={this.deleteMovie}
-          /> */}
+          />
         </div>
       </div>
     );

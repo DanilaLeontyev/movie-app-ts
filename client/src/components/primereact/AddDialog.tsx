@@ -133,8 +133,8 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
 
   private onTitleChange = (e: any) => {
     const title = e.target.value;
-    this.setState(prevState => ({
-      movie: { ...prevState.movie, title }
+    this.setState(state => ({
+      movie: { ...state.movie, title }
     }));
   };
 
