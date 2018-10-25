@@ -71,11 +71,6 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
         <div className="content-section introduction">
           <div className="feature-intro">
             <h1>American Movies</h1>
-            <p>
-              На данном сайте представлен список всех Американских фильмов,{' '}
-              <br />
-              Вы можете редактировать фильмы открыв карточку фильма
-            </p>
           </div>
         </div>
 

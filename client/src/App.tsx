@@ -14,7 +14,7 @@ class App extends React.Component<any, IAppState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      design: 'primeReact'
+      design: 'PrimeReact'
     };
 
     this.switchLibrary = this.switchLibrary.bind(this);
@@ -23,21 +23,30 @@ class App extends React.Component<any, IAppState> {
   public render() {
     return (
       <div>
-        <button onClick={this.switchLibrary}>{this.state.design}</button>
-        {this.state.design === 'primeReact' && <MovieTable />}
-          {this.state.design === 'antDesign' && <MovieTableANT />}
-        </div>
+        <header className="siteHeader">
+          <img
+            className="header-logo"
+            src={`img/${this.state.design}.png`}
+            alt=""
+          />
+          <button className="switchButton" onClick={this.switchLibrary}>
+            {this.state.design}
+          </button>
+        </header>
+        {this.state.design === 'PrimeReact' && <MovieTable />}
+        {this.state.design === 'antDesign' && <MovieTableANT />}
+      </div>
     );
   }
 
   private switchLibrary(e: any) {
-    if (this.state.design === 'primeReact') {
+    if (this.state.design === 'PrimeReact') {
       this.setState({
         design: 'antDesign'
       });
     } else {
       this.setState({
-        design: 'primeReact'
+        design: 'PrimeReact'
       });
     }
   }
