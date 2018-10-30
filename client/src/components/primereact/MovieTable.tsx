@@ -51,16 +51,6 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
       sortOrder: 0,
       sortField: ''
     };
-
-    this.itemTemplate = this.itemTemplate.bind(this);
-    this.onSortChange = this.onSortChange.bind(this);
-    this.hideDialog = this.hideDialog.bind(this);
-    this.deleteMovie = this.deleteMovie.bind(this);
-    this.getAllMovies = this.getAllMovies.bind(this);
-    this.onEditButton = this.onEditButton.bind(this);
-    this.onInfoButton = this.onInfoButton.bind(this);
-    this.onShowAddDialog = this.onShowAddDialog.bind(this);
-    this.onChangeLayer = this.onChangeLayer.bind(this);
   }
 
   public render() {
@@ -119,13 +109,13 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
     }
   }
 
-  private getAllMovies(): void {
+  private getAllMovies = (): void => {
     fetch('/api/movies')
       .then(res => res.json())
       .then(data => this.setState({ movies: data }));
-  }
+  };
 
-  private deleteMovie(e: any): void {
+  private deleteMovie = (e: any): void => {
     e.preventDefault();
     fetch('/api/movies', {
       method: 'delete',
@@ -136,9 +126,9 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
     })
       .then(() => this.getAllMovies())
       .then(() => this.hideDialog());
-  }
+  };
 
-  private onSortChange(e: any) {
+  private onSortChange = (e: any) => {
     const value = e.value;
     if (value.indexOf('!') === 0) {
       this.setState({
@@ -153,17 +143,17 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
         sortKey: value
       });
     }
-  }
+  };
 
-  private hideDialog() {
+  private hideDialog = () => {
     this.setState({
       visibleInfo: false,
       visibleAdd: false,
       visibleEdit: false
     });
-  }
+  };
 
-  private itemTemplate(movie: IMovie, layout: string): any {
+  private itemTemplate = (movie: IMovie, layout: string): any => {
     if (!movie) {
       return <div />; // Заглушка, чтобы при открытии последей страницы пагинации приложение не падало
     }
@@ -175,9 +165,9 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
         return this.renderGridItem(movie);
       }
     }
-  }
+  };
 
-  private renderListItem(movie: IMovie) {
+  private renderListItem = (movie: IMovie) => {
     const poster = movie.poster ? movie.poster : 'defaultPoster.jpeg';
     return (
       <div key={movie._id} className="Movie--item">
@@ -214,7 +204,7 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
         </div>
       </div>
     );
-  }
+  };
 
   private onEditButton = (movie: IMovie) => (e: any) => {
     this.setState({
@@ -235,7 +225,7 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
     this.setState({ layout: e.value });
   };
 
-  private renderGridItem(movie: IMovie) {
+  private renderGridItem = (movie: IMovie) => {
     return (
       <div
         key={movie._id}
@@ -252,9 +242,9 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
         </Panel>
       </div>
     );
-  }
+  };
 
-  private renderHeader() {
+  private renderHeader = () => {
     const sortOptions = [
       { label: 'Сначала новые', value: '!year' },
       { label: 'Сначала старые', value: 'year' }
@@ -281,7 +271,7 @@ export class MovieTable extends React.Component<any, IMovieTableState> {
         />
       </section>
     );
-  }
+  };
 }
 
 export default MovieTable;

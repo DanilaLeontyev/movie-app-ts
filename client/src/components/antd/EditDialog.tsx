@@ -1,12 +1,4 @@
-import {
-  DatePicker,
-  Form,
-  Input,
-  message,
-  Modal,
-  Select,
-  Slider
-} from 'antd';
+import { DatePicker, Form, Input, message, Modal, Select, Slider } from 'antd';
 import * as moment from 'moment';
 import 'moment/locale/ru';
 import * as React from 'react';
@@ -51,13 +43,6 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
         genres: []
       }
     };
-
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.onHandleCancel = this.onHandleCancel.bind(this);
-    this.handleReleaseDateChange = this.handleReleaseDateChange.bind(this);
-    this.handleDurationChange = this.handleDurationChange.bind(this);
-    this.handleGanresChange = this.handleGanresChange.bind(this);
-    this.updateMovie = this.updateMovie.bind(this);
   }
 
   public render() {
@@ -144,37 +129,37 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
     this.onHandleCancel(e);
   };
 
-  private onHandleCancel(e: any) {
+  private onHandleCancel = (e: any) => {
     this.props.handleCancel(e);
-  }
+  };
 
-  private handleGanresChange(e: any) {
+  private handleGanresChange = (e: any) => {
     const genres = e;
     this.setState(state => ({
       editedMovie: { ...state.editedMovie, genres }
     }));
-  }
+  };
 
-  private handleTitleChange(e: any) {
+  private handleTitleChange = (e: any) => {
     const title = e.target.value;
     this.setState(state => ({
       editedMovie: { ...state.editedMovie, title }
     }));
-  }
+  };
 
-  private handleReleaseDateChange(e: any) {
+  private handleReleaseDateChange = (e: any) => {
     const releaseDate = moment(e).format('YYYY-MM-DD');
     const year = moment(e).format('YYYY');
     this.setState(state => ({
       editedMovie: { ...state.editedMovie, releaseDate, year }
     }));
-  }
+  };
 
-  private handleDurationChange(e: any) {
+  private handleDurationChange = (e: any) => {
     const duration = e;
     this.setState(state => ({
       editedMovie: { ...state.editedMovie, duration }
     }));
-  }
+  };
 }
 export default EditDialog;

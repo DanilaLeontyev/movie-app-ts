@@ -96,13 +96,6 @@ class MovieTable extends React.Component<any, IAppState> {
         genres: []
       }
     };
-
-    this.getAllMovies = this.getAllMovies.bind(this);
-    this.hideDialog = this.hideDialog.bind(this);
-    this.showAddDialog = this.showAddDialog.bind(this);
-    this.deleteMovie = this.deleteMovie.bind(this);
-    this.addMovieToState = this.addMovieToState.bind(this);
-    this.updateMovieInState = this.updateMovieInState.bind(this);
   }
 
   public componentDidMount(): void {
@@ -149,13 +142,13 @@ class MovieTable extends React.Component<any, IAppState> {
     );
   }
 
-  public getAllMovies(): void {
+  public getAllMovies = (): void => {
     fetch('/api/movies')
       .then(res => res.json())
       .then(data => this.setState({ movies: data }))
       .then(() => message.success(`Данные загружены`))
       .catch(() => message.error(`Ошибка загрузки данных`));
-  }
+  };
 
   public addMovieToState = (movie: IMovie) => {
     this.setState({
@@ -220,18 +213,18 @@ class MovieTable extends React.Component<any, IAppState> {
     });
   };
 
-  private showAddDialog(): void {
+  private showAddDialog = (): void => {
     this.setState({
       visibleAddDialog: true
     });
-  }
+  };
 
-  private hideDialog(): void {
+  private hideDialog = (): void => {
     this.setState({
       visibleEditDialog: false,
       visibleAddDialog: false
     });
-  }
+  };
 }
 
 export default MovieTable;

@@ -42,10 +42,6 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
         genres: []
       }
     };
-
-    this.changeReleaseDate = this.changeReleaseDate.bind(this);
-    this.addMovie = this.addMovie.bind(this);
-    this.sendPoster = this.sendPoster.bind(this);
   }
 
   public render() {
@@ -63,7 +59,7 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
     );
   }
 
-  private addMovie(e: any) {
+  private addMovie = (e: any) => {
     e.preventDefault();
     fetch('/api/movies', {
       method: 'post',
@@ -87,9 +83,9 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
           }
         })
       );
-  }
+  };
 
-  private sendPoster(e: any) {
+  private sendPoster = (e: any) => {
     const files = e.files[0];
     const data = new FormData();
     data.append('poster', files);
@@ -109,9 +105,9 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
           }
         }))
       );
-  }
+  };
 
-  private changeReleaseDate(e: any) {
+  private changeReleaseDate = (e: any) => {
     let date;
     if (e.target && e.target.nodeName === 'INPUT') {
       date = new Date(e.target.value);
@@ -129,7 +125,7 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
         year
       }
     }));
-  }
+  };
 
   private onTitleChange = (e: any) => {
     const title = e.target.value;
@@ -145,7 +141,7 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
     }));
   };
 
-  private renderAddMovieDialogContent() {
+  private renderAddMovieDialogContent = () => {
     const movie = this.state.movie;
 
     return (
@@ -202,7 +198,7 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
         />
       </form>
     );
-  }
+  };
 }
 
 export default AddDialog;

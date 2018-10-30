@@ -44,12 +44,6 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
         genres: []
       }
     };
-    this.updateMovie = this.updateMovie.bind(this);
-    this.changeReleaseDate = this.changeReleaseDate.bind(this);
-    this.onDurationChange = this.onDurationChange.bind(this);
-    this.onTitleChange = this.onTitleChange.bind(this);
-    this.onGanresChange = this.onGanresChange.bind(this);
-    this.onClearForm = this.onClearForm.bind(this);
   }
 
   public render() {
@@ -66,7 +60,7 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
     );
   }
 
-  private changeReleaseDate(e: any) {
+  private changeReleaseDate = (e: any) => {
     let date;
     if (e.target && e.target.nodeName === 'INPUT') {
       date = new Date(e.target.value);
@@ -84,9 +78,9 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
         year
       }
     }));
-  }
+  };
 
-  private updateMovie(e: any) {
+  private updateMovie = (e: any) => {
     e.preventDefault();
     fetch('/api/movies', {
       method: 'put',
@@ -113,9 +107,9 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
           }
         })
       );
-  }
+  };
 
-  private renderDialogEdit(): any {
+  private renderDialogEdit = (): any => {
     const genresList = [
       { label: 'Action', value: 'Action' },
       { label: 'Horror', value: 'Horror' },
@@ -222,7 +216,7 @@ class EditDialog extends React.Component<IEditDialogProps, IEditDialogState> {
         </form>
       );
     }
-  }
+  };
 
   private onClearForm = (e: any) => {
     e.preventDefault();

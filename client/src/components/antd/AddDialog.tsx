@@ -53,14 +53,6 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
         genres: []
       }
     };
-
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.onHandleCancel = this.onHandleCancel.bind(this);
-    this.handleReleaseDateChange = this.handleReleaseDateChange.bind(this);
-    this.handleDurationChange = this.handleDurationChange.bind(this);
-    this.handleGanresChange = this.handleGanresChange.bind(this);
-    this.addMovie = this.addMovie.bind(this);
-    this.handleUpload = this.handleUpload.bind(this);
   }
 
   public render() {
@@ -125,14 +117,14 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
     );
   }
 
-  private handleUpload(info: any) {
+  private handleUpload = (info: any) => {
     if (info.file.status === 'done') {
       const poster = info.file.response;
       this.setState(state => ({
         movie: { ...state.movie, poster }
       }));
     }
-  }
+  };
 
   private addMovie = (e: any) => {
     fetch('/api/movies', {
@@ -160,38 +152,38 @@ class AddDialog extends React.Component<IAddDialogProps, IAddDialogState> {
     this.onHandleCancel(e);
   };
 
-  private onHandleCancel(e: any) {
+  private onHandleCancel = (e: any) => {
     this.props.handleCancel(e);
-  }
+  };
 
-  private handleGanresChange(e: any) {
+  private handleGanresChange = (e: any) => {
     const genres = e;
     this.setState(state => ({
       movie: { ...state.movie, genres }
     }));
-  }
+  };
 
-  private handleTitleChange(e: any) {
+  private handleTitleChange = (e: any) => {
     const title = e.target.value;
     this.setState(state => ({
       movie: { ...state.movie, title }
     }));
-  }
+  };
 
-  private handleReleaseDateChange(e: any) {
+  private handleReleaseDateChange = (e: any) => {
     const releaseDate = moment(e).format('YYYY-MM-DD');
     const year = moment(e).format('YYYY');
     this.setState(state => ({
       movie: { ...state.movie, releaseDate, year }
     }));
-  }
+  };
 
-  private handleDurationChange(e: any) {
+  private handleDurationChange = (e: any) => {
     const duration = e;
     this.setState(state => ({
       movie: { ...state.movie, duration }
     }));
-  }
+  };
 }
 
 export default AddDialog;
