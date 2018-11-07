@@ -42,11 +42,19 @@ app.post('/api/movies', (req, res) => {
       let data = req.body.movie;
       let movies = client.db('movie-database').collection('movie-in-theaters');
 
-      movies.insertOne(data);
+      if (Object.keys(data).length) {
+        if (data.hasOwnProperty('_id')) {
+          delete data._id;
+        }
+        movies.insertOne(data, (err, result) => {
+          res.send(data._id);
+        });
+      } else res.send({ message: 'object is empty' });
     }
   );
 });
 
+//Хранение upload картинки
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, './data/img/');
@@ -79,17 +87,21 @@ app.put('/api/movies', (req, res) => {
       let id = new ObjectId(oldData._id);
       let movies = client.db('movie-database').collection('movie-in-theaters');
 
+      Object.keys(newData).forEach(key => {
+        if (
+          newData[key] === '' ||
+          newData[key].length === 0 ||
+          newData[key] === null
+        ) {
+          delete newData[key];
+        }
+      });
+
       movies.findOneAndUpdate(
         { _id: id },
         {
           $set: {
-            title: newData.title ? newData.title : oldData.title,
-            genres: newData.genres.length > 0 ? newData.genres : oldData.genres,
-            duration: newData.duration ? newData.duration : oldData.duration,
-            releaseDate: newData.releaseDate
-              ? newData.releaseDate
-              : oldData.releaseDate,
-            year: newData.year ? newData.year : oldData.year
+            ...newData
           }
         },
         {
@@ -114,7 +126,6 @@ app.delete('/api/movies', (req, res) => {
       if (err) console.log(err);
       let id = new ObjectId(req.body.movie._id); // Получаем ID элемента,который нужно удалить
       let movies = client.db('movie-database').collection('movie-in-theaters');
-
       movies.findOneAndDelete(
         {
           _id: id

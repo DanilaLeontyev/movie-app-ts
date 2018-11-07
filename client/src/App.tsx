@@ -1,66 +1,55 @@
-import { Table } from 'antd';
+import 'primeicons/primeicons.css';
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/nova-light/theme.css';
 import * as React from 'react';
 import './App.css';
+import MovieTableANT from './components/antd/MovieTable';
+import MovieTable from './components/primereact/MovieTable';
 
-class App extends React.Component<any, any> {
-  public columns: any = [
-    {
-      title: 'Название',
-      dataIndex: 'name',
-      key: 'name'
-    }
-  ];
+interface IAppState {
+  design: string;
+}
 
-  public data: any = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer']
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser']
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher']
-    }
-  ];
-
+class App extends React.Component<any, IAppState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      movies: []
+      design: 'PrimeReact'
     };
-    this.getAllMovies = this.getAllMovies.bind(this);
-  }
 
-  public getAllMovies(): void {
-    fetch('/api/movies')
-      .then(res => res.json())
-      .then(data => this.setState({ movies: data }));
-  }
-
-  public componentDidMount() {
-    this.getAllMovies();
+    this.switchLibrary = this.switchLibrary.bind(this);
   }
 
   public render() {
-    const columns = this.columns;
-    const data = this.data;
     return (
-      <div className="App">
-        <Table columns={columns} dataSource={data} />
+      <div>
+        <header className="siteHeader">
+          <img
+            className="header-logo"
+            src={`img/${this.state.design}.png`}
+            alt="logo"
+          />
+          <h1>Фильмотека</h1>
+          <button className="switchButton" onClick={this.switchLibrary}>
+            {this.state.design}
+          </button>
+        </header>
+        {this.state.design === 'PrimeReact' && <MovieTable />}
+        {this.state.design === 'antDesign' && <MovieTableANT />}
       </div>
     );
+  }
+
+  private switchLibrary(e: any) {
+    if (this.state.design === 'PrimeReact') {
+      this.setState({
+        design: 'antDesign'
+      });
+    } else {
+      this.setState({
+        design: 'PrimeReact'
+      });
+    }
   }
 }
 

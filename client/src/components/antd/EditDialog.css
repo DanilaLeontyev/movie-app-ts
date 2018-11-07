@@ -1,0 +1,26 @@
+.EditDialog {
+  min-width: 700px;
+}
+
+.EditDialog > .ant-modal-content {
+  width: 100%;
+}
+
+.EditDialog--content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.EditDialog--content > * {
+  width: 50%;
+}
+
+.EditDialog--datepicker {
+  width: 100%;
+}
+
+.serverData--poster {
+  max-height: 200px;
+  margin-bottom: 20px;
+}

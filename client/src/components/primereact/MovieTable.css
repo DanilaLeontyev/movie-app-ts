@@ -1,0 +1,33 @@
+.Movie--item {
+    border-bottom: 1px solid #0067d8;
+    display: flex;
+    margin-top: 20px;
+    padding-bottom: 10px;
+  }
+  
+  .Movie--item div {
+    flex: 1;
+  }
+  
+  .Movie--details {
+    width: 50%;
+    margin-left: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .Movie--info {
+    display: flex;
+  }
+  
+  .Movie--buttonContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .MovieTable--header {
+    display: flex;
+    justify-content: space-between;
+  }

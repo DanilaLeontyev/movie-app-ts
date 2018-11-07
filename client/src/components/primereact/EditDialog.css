@@ -1,0 +1,68 @@
+.EditDialog--form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .EditDialog--content {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .EditDialog--content section {
+    min-width: 50%;
+  }
+  
+  .EditDialog--dataOnServer img {
+    width: 150px;
+    margin-bottom: 20px;
+  }
+  
+  .EditDialog--localData {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .EditDialog--genres {
+    margin-top: 20px;
+  }
+  
+  .EditDialog--genresInput {
+    width: 100%;
+  }
+  
+  .EditDialog--title {
+    width: 100%;
+  }
+  
+  .EditDialog--calendarInput {
+    width: 100%;
+  }
+  
+  .EditDialog--calendarInput input {
+    width: 100%;
+  }
+  
+  .EditDialog--calendar .p-datepicker {
+    top: -210px !important;
+    left: -25px !important;
+  }
+  
+  .EditDialog--btnContainer {
+    margin-top: 45px;
+    margin-right: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .EditDialog--sendBtn {
+    margin-top: 35px;
+  }
+  
+  .EditDialog--sendBtn button {
+    width: 100%;
+  }
+  
+  #delete-movie {
+    background-color: red;
+  }
